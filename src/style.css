@@ -2,10 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body{
-    @font-face {
-        font-family: 'gothammedium';
-        src: url('gotham-medium_500-webfont.woff2') format('woff2'),
-             url('gotham-medium_500-webfont.woff') format('woff');
-    }
-} */
+body{
+    font-family: 'Helvetica';
+    src: url(../fonts/Helvetica-Font/Helvetica-BoldOblique.ttf);
+}
