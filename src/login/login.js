@@ -1,7 +1,9 @@
-const CLIENT_ID = "3d4a1588791f4403a22fb0d1eae7bf06"
+import { ACCESS_TOKEN , TOKEN_TYPE, EXPIRES_IN} from "../common";
+
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
+const ACCESS_TOKEN_KEY = import.meta.env.VITE_APP_URL;
 const scopes = "user-top-read user-follow-read playlist-read-private user-library-read";
-const REDIRECT_URI = "http://localhost:3000/login/login.html";
-const ACCESS_TOKEN_KEY = "accessToken";
 const APP_URL = "http://localhost:3000"
 
 const authorizeUser = () => {
@@ -15,9 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 window.setItemsInLocastorage = ({accessToken , tokenType , expiresIn}) => {
-    localStorage.setItem("accessToken" , accessToken);
-    localStorage.setItem("tokenType" , tokenType);
-    localStorage.setItem("expiresIn" , expiresIn);
+    localStorage.setItem("ACCESS_TOKEN" , accessToken);
+    localStorage.setItem("TOKEN_TYPE" , tokenType);
+    localStorage.setItem("EXPIRES_IN" , expiresIn);
     window.location.href = `${APP_URL}/dashboard/dashboard.html` 
 }
 
