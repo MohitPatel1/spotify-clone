@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 /* body{
-    font-family:;
+    @font-face {
+        font-family: 'gothammedium';
+        src: url('gotham-medium_500-webfont.woff2') format('woff2'),
+             url('gotham-medium_500-webfont.woff') format('woff');
+    }
 } */

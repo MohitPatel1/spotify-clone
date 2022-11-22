@@ -12,3 +12,6 @@ Spotify Clone
 - window.location.hash
 - window.location.href.includes("error")
 - what is hash from the window.location?
+
+# To do
+- Circular,Helvetica,Arial,sans-serif have this fonts

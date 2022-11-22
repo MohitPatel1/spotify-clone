@@ -7,9 +7,16 @@
     <title>Spotify Player</title>
     <link rel="stylesheet" href="../style.css">
 </head>
-<body>
-    <h1 class="text-3xl font-bold underline text-red-600">Welcome To Login</h1>
-    <button id="login-to-spotify" class="bg-black text-white">Login</button>
+<body class="h-screen bg-green">
+    <main class="w-full h-full flex justify-center items-center">
+        <section class="flex items-center flex-col gap-8">
+            <img src="../images/spotify-icons-logos/logos/01_RGB/02_PNG/Spotify_Logo_RGB_Black.png" alt="Spotify Image" class="h-[15vh]">
+            <input type="button" 
+            value="login to Spotify" 
+            id="login-to-spotify"
+            class="bg-dark text-white w-[80%] h-12 rounded-md hover:cursor-pointer">
+        </section>
+    </main>
     <script type="module" src="login.js"></script>
 </body>
 </html>
