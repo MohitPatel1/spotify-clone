@@ -15,3 +15,8 @@ Spotify Clone
 
 # To do
 - Circular,Helvetica,Arial,sans-serif have this fonts
+
+# Notes
+  # Tailwind
+  - h-full	=> height: 100%; 100% of the container height
+    h-screen	=> height: 100vh; full screen reagardless of container size

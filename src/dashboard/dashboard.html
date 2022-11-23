@@ -4,9 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <script type="module" src="dashboard.js"></script>
     <title>Dashboard</title>
 </head>
-<body>
-    <h1>Welcome To Dashboard</h1>
+<body class="h-screen w-screen bg-black text-primary">
+    <main class="grid-template-areas grid-template grid grid-cols-[250px_1fr] grid-rows-[1fr_auto] h-full">
+        <aside class="sidenav">
+            
+            <p>sidenav</p>
+        </aside>
+        <section class="content">
+            <header class="border-solid border-2 px-8 py-4">
+                <nav class="flex justify-end">
+                    <button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 hover:bg-light-black">  <!--  -->
+                        <section>
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                fill="none" 
+                                viewBox="0 0 24 24" 
+                                stroke-width="1.5" 
+                                stroke="currentColor" 
+                                class="w-8 h-8 rounded-full bg-gray">
+                                <path 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round" 
+                                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg> 
+                        </section>
+                        <section class="flex gap-x-1 justify-center">
+                            <h3 id="display-name">Mohit</h3>
+                            <i>▼</i>
+                        </section>
+                    </button>
+                </nav>
+            </header>
+        </section>
+        <footer class="now-playing">
+            <p>now playing</p>
+        </footer>
+    </main>
 </body>
 </html>
