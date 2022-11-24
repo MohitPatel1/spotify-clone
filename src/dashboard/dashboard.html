@@ -15,10 +15,10 @@
         </aside>
         <section class="content">
             <header class="border-solid border-2 px-8 py-4">
-                <nav class="flex justify-end">
-                    <button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 hover:bg-light-black">  <!--  -->
+                <nav class="flex justify-end relative">
+                    <button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 hover:bg-light-black">
                         <section>
-                            <svg 
+                            <svg id="default-image"
                                 xmlns="http://www.w3.org/2000/svg" 
                                 fill="none" 
                                 viewBox="0 0 24 24" 
@@ -32,10 +32,13 @@
                             </svg> 
                         </section>
                         <section class="flex gap-x-1 justify-center">
-                            <h3 id="display-name">Mohit</h3>
+                            <h3 id="display-name">Mohit Patel</h3>
                             <i>▼</i>
                         </section>
                     </button>
+                    <ul id="profile-menu" class="hidden absolute top-12 right-0 w-[200px] rounded-md bg-light-black p-1"> <!-- hidden -->
+                        <li id="logout" class=" cursor-pointer rounded-md p-1 hover:bg-gray">Logout</li> <!-- w-full -->
+                    </ul>
                 </nav>
             </header>
         </section>
