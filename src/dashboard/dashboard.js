@@ -1,15 +1,17 @@
-import { doc } from "prettier";
 import { fetchRequest } from "../api";
 import { ENDPOINT, logout } from "../common";
 
 const onProfileClick = (event) => {
     event.stopPropagation();
     const profileMenu = document.querySelector("#profile-menu");
-    profileMenu.classList.toggle("hidden");
+    profileMenu.classList.toggle("hidden"); 
     if(!profileMenu.classList.contains("hidden")){
+        console.log("on profile click");
         profileMenu.querySelector("li#logout").addEventListener("click", logout);
     }
 }
+
+// Loading Content
 
 const loadUserProfile = async() => {
     const defaultImage = document.querySelector("#default-image");
@@ -24,12 +26,18 @@ const loadUserProfile = async() => {
     profileButton.addEventListener("click", onProfileClick)
 }
 
+const loadFeaturedPlaylist = async() => {
+    const featuredPlaylist = await fetchRequest(ENDPOINT.featuredPlaylist);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
-    const profileMenu = document.querySelector("#profile-menu");
+    loadFeaturedPlaylist();
     document.addEventListener("click" , () => {
-        if(profileMenu.classList.contains("hidden")){
-            profileMenu.classList.remove("hidden");
+        const profileMenu = document.querySelector("#profile-menu");
+        if(!profileMenu.classList.contains("hidden")){
+            console.log("on document click");
+            profileMenu.classList.add("hidden");
         }
     })
 
