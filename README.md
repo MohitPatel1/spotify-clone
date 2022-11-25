@@ -14,7 +14,7 @@ Spotify Clone
 - what is hash from the window.location?
 
 # To do
-- profile picture
+- profile picture -> done
 - Circular,Helvetica,Arial,sans-serif have this fonts -> done
 
 # Notes

@@ -14,15 +14,11 @@ const loadUserProfile = async() => {
     const profileButton = document.querySelector("#user-profile-btn");
     const displayNameElement = document.querySelector("#display-name");
     
-    const { display_name: displayName , images} = await fetchRequest(ENDPOINT.userInfo); //[0]{url}
+    const { display_name: displayName ,images , images:[{url}]} = await fetchRequest(ENDPOINT.userInfo); //[0]{url}
     displayNameElement.textContent = displayName;
     if(images?.length){
-        defaultImage.classList.add("hidden");
+        defaultImage.innerHTML = `<img src="${url}" class="w-8 h-8 rounded-full bg-gray">` 
     }
-    else{
-        defaultImage.classList.remove("hidden");
-    }
-
     profileButton.addEventListener("click", onProfileClick)
 }
 
