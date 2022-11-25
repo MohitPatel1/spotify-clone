@@ -1,7 +1,9 @@
+import { doc } from "prettier";
 import { fetchRequest } from "../api";
 import { ENDPOINT, logout } from "../common";
 
-const onProfileClick = () => {
+const onProfileClick = (event) => {
+    event.stopPropagation();
     const profileMenu = document.querySelector("#profile-menu");
     profileMenu.classList.toggle("hidden");
     if(!profileMenu.classList.contains("hidden")){
@@ -24,4 +26,11 @@ const loadUserProfile = async() => {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
+    const profileMenu = document.querySelector("#profile-menu");
+    document.addEventListener("click" , () => {
+        if(profileMenu.classList.contains("hidden")){
+            profileMenu.classList.remove("hidden");
+        }
+    })
+
 })
