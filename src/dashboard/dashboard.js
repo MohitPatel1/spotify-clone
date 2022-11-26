@@ -11,6 +11,10 @@ const onProfileClick = (event) => {
     }
 }
 
+const onPlaylistClicked = (event) => {
+    console.log(event.target);
+}
+
 // Loading Content
 
 const loadUserProfile = async() => {
@@ -27,7 +31,20 @@ const loadUserProfile = async() => {
 }
 
 const loadFeaturedPlaylist = async() => {
-    const featuredPlaylist = await fetchRequest(ENDPOINT.featuredPlaylist);
+    const {playlists:{items}} = await fetchRequest(ENDPOINT.featuredPlaylist);
+    const playlistItemsSection = document.querySelector("#featured-playlist-items");
+    for (let {name, description, images:[{url}] ,id} of items){
+        const playlistItem = document.createElement("section");
+        playlistItem.id = id;
+        playlistItem.className = "rounded p-4 border-solid border-2 hover:cursor-pointer";
+        playlistItem.setAttribute("data-type", "playlist")
+        playlistItem.addEventListener("click", onPlaylistClicked)
+        playlistItem.innerHTML = `<img src="${url}" alt="${name}" class="rounded mb-2 object-contain shadow">
+        <h2 class="text-sm">${name}</h2>
+        <h3 class="text-xs">${description}</h3>`;
+
+        playlistItemsSection.appendChild(playlistItem);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
