@@ -13,8 +13,8 @@
             
             <p>sidenav</p>
         </aside>
-        <section class="content">
-            <header class="border-solid border-2 px-8 py-4">
+        <article class="content bg-black-base">
+            <header class="border-solid border-2 px-8 py-4 bg-transparent">
                 <nav class="flex justify-end relative">
                     <button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 hover:bg-light-black">
                         <section id="default-image">
@@ -42,21 +42,14 @@
                 </nav>
             </header>
             <article class="p-4">
-                <h1 class="text-2xl">Featured</h1>
-                <section id="featured-playlist-items" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"  >
-                    <!-- <section class="rounded p-4 border-solid border-2">
-                        <img src="https://i.scdn.co/image/ab67706f00000003a14526ab7558448434c6e8d3" alt=" ">
-                        <h2 class="text-sm ">Name</h2>
-                        <h3 class="text-xs ">Desciption</h3>
-                    </section>
-                    <section class="rounded">
-                        <img src="https://i.scdn.co/image/ab67706f000000039059508875d114f754e9daee" alt=" ">
-                        <h2>Name</h2>
-                        <h3>Desciption</h3>
-                    </section> -->
-                </section>
+                <h1 class="text-2xl mb-4">Featured</h1>
+                <section id="featured-playlist-items" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"></section>
             </article>
-        </section>
+            <article class="p-4">
+                <h1 class="text-2xl mb-4">Top Playlists</h1>
+                <section id="top-playlist-items" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"></section>
+            </article>
+        </article>
         <footer class="now-playing">
             <p>now playing</p>
         </footer>
