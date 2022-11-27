@@ -20,8 +20,8 @@ export default defineConfig(({ command, mode }) => {
       rollupOptions:{
         input:{
           main: resolve(root, 'index.html'),
-          dashboard: resolve(root, 'dashboard', 'dashboard.html'),
-          login: resolve(root, 'login', 'login.html'),
+          dashboard: resolve(root, 'dashboard', 'index.html'),
+          login: resolve(root, 'login', 'index.html'),
 
         }
       }
