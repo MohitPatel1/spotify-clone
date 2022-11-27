@@ -6,7 +6,7 @@ const APP_URL = import.meta.env.VITE_APP_URL;
 export const ENDPOINT = {
     userInfo: "me",
     featuredPlaylist: "browse/featured-playlists?limit=5",
-    toplists: "browse/categories/toplists/playlists?limit=10",
+    toplists: "browse/categories/toplists/playlists?limit=10"
 
 }
 
