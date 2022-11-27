@@ -10,10 +10,12 @@
 <body class="h-screen w-screen bg-black text-primary">
     <main class="grid-template-areas grid-template grid grid-cols-[250px_1fr] grid-rows-[1fr_auto] h-full">
         <aside class="sidenav">
-            
-            <p>sidenav</p>
+            <h1>sidenav</h1>
+            <img src="../images/rickAndMorty.jpg" alt="">
+            <span class="shadow shadow-green">Look Morty Mohit is making a side nav</span>
+            <h1>aghh how dumb!</h1>
         </aside>
-        <article class="content bg-black-base">
+        <article class="relative content overflow-auto bg-transparent">
             <header class="border-solid border-2 px-8 py-4 bg-transparent">
                 <nav class="flex justify-end relative">
                     <button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 hover:bg-light-black">
@@ -41,17 +43,12 @@
                     </ul>
                 </nav>
             </header>
-            <article class="p-4">
-                <h1 class="text-2xl mb-4">Featured</h1>
-                <section id="featured-playlist-items" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"></section>
+            <article id="cover-content" class="absolute w-full h-72 -z-[1] top-0 px-8 py-4 bg-gradient-to-b from-light-black to-black-base">
+            
             </article>
-            <article class="p-4">
-                <h1 class="text-2xl mb-4">Top Playlists</h1>
-                <section id="top-playlist-items" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"></section>
-            </article>
-        </article>
+            <section id="page-content" class=" bg-black-base mt-48"></section>
         <footer class="now-playing">
-            <p>now playing</p>
+            <p>Now playing</p>
         </footer>
     </main>
     <script type="module" src="dashboard.js"></script>

@@ -53,6 +53,7 @@ const loadPlaylists = () => {
 }
 
 const fillContentForDashboard = () => {
+    const pageContent = document.querySelector("#page-content");
     const playlistMap = new Map([["featured","featured-playlist-items"],["top playlists", "top-playlist-items"]])
     let innerHTML = "";
     for(let [type , id] of playlistMap){
@@ -61,10 +62,12 @@ const fillContentForDashboard = () => {
         <section id="${id}" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"></section>
     </article>`
     }
+    pageContent.innerHTML=innerHTML;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
+    fillContentForDashboard();
     loadPlaylists();
     document.addEventListener("click" , () => {
         const profileMenu = document.querySelector("#profile-menu");

@@ -16,6 +16,8 @@ Spotify Clone
 # To do
 - profile picture -> done
 - Circular,Helvetica,Arial,sans-serif have this fonts -> done
+- 27:45, gradiant and sticky
+- id from fillContentForDashboard goes to load playlist 
 
 # Notes
   # Tailwind
