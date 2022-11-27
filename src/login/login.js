@@ -25,7 +25,7 @@ window.setItemsInLocastorage = ({accessToken , tokenType , expiresIn}) => {
 window.addEventListener("load", () => {
     const accessToken =  localStorage.getItem(ACCESS_TOKEN);
     if(accessToken){
-        window.location.href = `${APP_URL}/dashboard/dashboard.html`;
+        window.location.href = `${APP_URL}/dashboard`;
     }
 
    if (window.opener !== null && !window.opener.closed) {
