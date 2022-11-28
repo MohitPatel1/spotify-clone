@@ -36,9 +36,6 @@ window.addEventListener("load", () => {
     const {hash} = window.location;
     const searchParams = new URLSearchParams(hash);
     const accessToken = searchParams.get("#access_token");
-
-    // '#access_token=BQALYWce4TeSqEgHSYdbt22PnYT8HZWBcGy8-Ny1IFahLFOAV6Np8q94ny1JEgz4PwvSzN72PUMzToWg3S-vt4S82DU8iZhZAK7Bf8XTvBHPq5PpUJsFrJUEptryxHLaCnwSFCpHZIImhXPg-NdsfUZNaTU5Q0cYA7IhFRr5dOTdUJK787uQLzgw7bTwk-V1WHWuOcNoFstBDhPguQ6XaYNZLFaDrnVFTw&token_type=Bearer&expires_in=3600'
-
     const tokenType = searchParams.get("token_type");
     const expiresIn = searchParams.get("expires_in");
     if(accessToken){
