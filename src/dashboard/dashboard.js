@@ -53,6 +53,7 @@ const loadPlaylists = () => {
 }
 
 const fillContentForDashboard = () => {
+    const pageContent = document.querySelector("#page-content");
     const playlistMap = new Map([["featured","featured-playlist-items"],["top playlists", "top-playlist-items"]])
     let innerHTML = "";
     for(let [type , id] of playlistMap){
@@ -61,10 +62,12 @@ const fillContentForDashboard = () => {
         <section id="${id}" class="featured-songs grid gap-2 grid-cols-auto-fill-cards"></section>
     </article>`
     }
+    pageContent.innerHTML=innerHTML;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
+    fillContentForDashboard();
     loadPlaylists();
     document.addEventListener("click" , () => {
         const profileMenu = document.querySelector("#profile-menu");
@@ -73,5 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
             profileMenu.classList.add("hidden");
         }
     })
-
+    document.querySelector(".content").addEventListener("scroll",(event) => {
+        const{scrollTop} = event.target;
+        const header = document.querySelector(".header");
+        if(scrollTop >= header.offsetHeight){
+            header.classList.add("sticky","top-0","bg-black-secondary");
+            header.classList.remove("bg-transparent");
+        }
+        else {
+            header.classList.add("sticky","top-0","bg-black-secondary");
+            header.classList.remove("bg-transparent");
+        }
+    });
 })
