@@ -13,6 +13,9 @@ const onProfileClick = (event) => {
 
 const onPlaylistClicked = (event) => {
     console.log(event.target);
+    const section = {type: SECTIONTYPE.PLAYLIST}
+    history.pushState(section, "","playlist");
+    loadSection(section)
 }
 
 // Loading Content
@@ -65,8 +68,21 @@ const fillContentForDashboard = () => {
     pageContent.innerHTML=innerHTML;
 }
 
+const loadSection = (section) => {
+    if(section.type === SECTIONTYPE.DASHBOARD){
+        fillContentForDashboard();
+        loadPlaylists();
+    }
+    else{
+        //load elements of playlist
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
+    const section = {type: SECTIONTYPE.DASHBOARD};
+    history.pushState(section, "","");
+    loadSection(section);
     fillContentForDashboard();
     loadPlaylists();
     document.addEventListener("click" , () => {
@@ -78,14 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     document.querySelector(".content").addEventListener("scroll",(event) => {
         const{scrollTop} = event.target;
+        console.log(window.pageYOffset);
         const header = document.querySelector(".header");
-        if(scrollTop >= header.offsetHeight){
-            header.classList.add("sticky","top-0","bg-black-secondary");
+        console.log(header.offsetHeight);
+        if(scrollTop >= header.offsetTop + header.offsetHeight){
+            header.classList.add("bg-black-secondary");
             header.classList.remove("bg-transparent");
         }
         else {
-            header.classList.add("sticky","top-0","bg-black-secondary");
-            header.classList.remove("bg-transparent");
+            header.classList.add("bg-transparent");
+            header.classList.remove("bg-black-secondary");
         }
     });
 })
