@@ -1,5 +1,5 @@
 import { fetchRequest } from "../api";
-import { ENDPOINT, logout } from "../common";
+import { ENDPOINT, logout, SECTIONTYPE } from "../common";
 
 const onProfileClick = (event) => {
     event.stopPropagation();
@@ -9,13 +9,6 @@ const onProfileClick = (event) => {
         console.log("on profile click");
         profileMenu.querySelector("li#logout").addEventListener("click", logout);
     }
-}
-
-const onPlaylistClicked = (event) => {
-    console.log(event.target);
-    const section = {type: SECTIONTYPE.PLAYLIST}
-    history.pushState(section, "","playlist");
-    loadSection(section)
 }
 
 // Loading Content
@@ -41,7 +34,7 @@ const loadPlaylist = async(endpoint, elementId) => {
         playlistItem.id = id;
         playlistItem.className = "rounded p-4 hover:cursor-pointer bg-black-secondary hover:bg-light-black";
         playlistItem.setAttribute("data-type", "playlist")
-        playlistItem.addEventListener("click", onPlaylistClicked)
+        playlistItem.addEventListener("click", (event)=>onPlaylistClicked(event,id));
         playlistItem.innerHTML = `<img src="${url}" alt="${name}" class="rounded mb-2 object-contain shadow">
         <h2 class="text-base mb-4 truncate">${name}</h2>
         <h3 class="text-sm text-secondary line-clamp-2">${description}</h3>`;
@@ -68,13 +61,29 @@ const fillContentForDashboard = () => {
     pageContent.innerHTML=innerHTML;
 }
 
+const fillContentForPlaylist = async (playlistId) => {
+    const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
+    const playlistItem = document.querySelector("#page-content");
+    playlistItem.innerHTML = "";
+    console.log(playlist);
+}
+
+
+const onPlaylistClicked = (event,id) => {
+    console.log(event.target);
+    const section = {type: SECTIONTYPE.PLAYLIST, playlist: id}
+    history.pushState(section, "",`playlist/${id}`);
+    loadSection(section);
+}
+
 const loadSection = (section) => {
     if(section.type === SECTIONTYPE.DASHBOARD){
-        fillContentForDashboard();
-        loadPlaylists();
+        // fillContentForDashboard();
+        // loadPlaylists();
     }
-    else{
-        //load elements of playlist
+    else if(section.type === SECTIONTYPE.PLAYLIST){
+        console.log(section.id);
+        fillContentForPlaylist(section.playlist)
     }
 }
 
@@ -83,8 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = {type: SECTIONTYPE.DASHBOARD};
     history.pushState(section, "","");
     loadSection(section);
-    fillContentForDashboard();
-    loadPlaylists();
     document.addEventListener("click" , () => {
         const profileMenu = document.querySelector("#profile-menu");
         if(!profileMenu.classList.contains("hidden")){
@@ -94,9 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     document.querySelector(".content").addEventListener("scroll",(event) => {
         const{scrollTop} = event.target;
-        console.log(window.pageYOffset);
         const header = document.querySelector(".header");
-        console.log(header.offsetHeight);
         if(scrollTop >= header.offsetTop + header.offsetHeight){
             header.classList.add("bg-black-secondary");
             header.classList.remove("bg-transparent");
@@ -106,4 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
             header.classList.remove("bg-black-secondary");
         }
     });
+
+    window.addEventListener("popstate", (event) => {
+        loadSection(event.state)
+    })
 })

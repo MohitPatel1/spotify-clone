@@ -12,6 +12,9 @@ Spotify Clone
 - window.location.hash
 - window.location.href.includes("error")
 - what is hash from the window.location?
+- popstate event
+- state
+- serializable object
 
 # To do
 - profile picture -> done
