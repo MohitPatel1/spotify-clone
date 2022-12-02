@@ -61,10 +61,47 @@ const fillContentForDashboard = () => {
     pageContent.innerHTML=innerHTML;
 }
 
+const loadPlaylistTracks = ({tracks}) => {
+    let trackSection = document.querySelector("#tracks");
+    for(let trackItem of tracks.items){
+        console.log(trackItem);
+        console.log(trackItem.track);
+        let {id , artists , name , album, duration_ms} = trackItem.track;
+        let image = album.images.find(img => img.height === 64);
+        trackSection.innerHTML += `<section class="track p-1 grid grid-cols-[50px_2fr_1fr_50px] items-center justify-items-start gap-4 text-secondary rounded-md hover:bg-light-black">
+        <p class="justify-self-center">1</p>
+        <section class="grid grid-cols-2 gap-2">
+            <img class="h-8 w-8" src="${image.url}" alt="${name}" />
+            <article class="flex flex-col gap-1">
+                <h2 class="text-primary text-xl ">${name}</h2>
+                <p class="text-sm">${Array.from(artists, artist=> artist.name).join(", ")}</p>
+            </article>
+        </section>
+        <p>${album.name}</p>
+        <p>${duration_ms}</p>
+        </section>
+        `;
+    }
+}
+
 const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
+    console.log(playlist);
     const playlistItem = document.querySelector("#page-content");
-    playlistItem.innerHTML = "";
+    playlistItem.innerHTML = `<header class="px-8">
+    <nav>
+        <ul class="grid grid-cols-[50px_2fr_1fr_50px] gap-4 text-secondary ">
+            <li class="justify-self-center">#</li>
+            <li>Title</li>
+            <li>Album</li>
+            <li>⏱</li>
+        </ul>
+    </nav>
+</header>
+<section id="tracks" class="px-8">
+</section>`
+
+    loadPlaylistTracks(playlist)
     console.log(playlist);
 }
 
@@ -72,17 +109,18 @@ const fillContentForPlaylist = async (playlistId) => {
 const onPlaylistClicked = (event,id) => {
     console.log(event.target);
     const section = {type: SECTIONTYPE.PLAYLIST, playlist: id}
+    console.log(section);
     history.pushState(section, "",`playlist/${id}`);
     loadSection(section);
 }
 
 const loadSection = (section) => {
     if(section.type === SECTIONTYPE.DASHBOARD){
-        // fillContentForDashboard();
-        // loadPlaylists();
+        fillContentForDashboard();
+        loadPlaylists();
     }
     else if(section.type === SECTIONTYPE.PLAYLIST){
-        console.log(section.id);
+        console.log(section.playlist);
         fillContentForPlaylist(section.playlist)
     }
 }
@@ -90,6 +128,7 @@ const loadSection = (section) => {
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
     const section = {type: SECTIONTYPE.DASHBOARD};
+    console.log(section);
     history.pushState(section, "","");
     loadSection(section);
     document.addEventListener("click" , () => {
@@ -99,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
             profileMenu.classList.add("hidden");
         }
     })
+
     document.querySelector(".content").addEventListener("scroll",(event) => {
         const{scrollTop} = event.target;
         const header = document.querySelector(".header");
