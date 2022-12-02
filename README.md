@@ -19,6 +19,8 @@ Spotify Clone
 # To do
 - profile picture -> done
 - Circular,Helvetica,Arial,sans-serif have this fonts -> done
+- add scrollbar and its color to playlists
+- modify scroll function for title
 
 # Notes
   # Tailwind

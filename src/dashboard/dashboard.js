@@ -6,7 +6,6 @@ const onProfileClick = (event) => {
     const profileMenu = document.querySelector("#profile-menu");
     profileMenu.classList.toggle("hidden"); 
     if(!profileMenu.classList.contains("hidden")){
-        console.log("on profile click");
         profileMenu.querySelector("li#logout").addEventListener("click", logout);
     }
 }
@@ -61,24 +60,32 @@ const fillContentForDashboard = () => {
     pageContent.innerHTML=innerHTML;
 }
 
+const formatTime = (duration_ms) => {
+    let duration_sec = duration_ms/1000 ;
+    let min = Math.floor(duration_sec / 60);
+    let sec = Math.round(duration_sec % 60);
+    let duration = ((min < 10 ? "0":"" ) + min + ":" + sec + (sec < 10 ? "0":""));
+    return duration
+}
+
 const loadPlaylistTracks = ({tracks}) => {
     let trackSection = document.querySelector("#tracks");
+    let trackNo = 1 ;
     for(let trackItem of tracks.items){
-        console.log(trackItem);
-        console.log(trackItem.track);
         let {id , artists , name , album, duration_ms} = trackItem.track;
         let image = album.images.find(img => img.height === 64);
+        let duration = formatTime(duration_ms)
         trackSection.innerHTML += `<section class="track p-1 grid grid-cols-[50px_2fr_1fr_50px] items-center justify-items-start gap-4 text-secondary rounded-md hover:bg-light-black">
-        <p class="justify-self-center">1</p>
-        <section class="grid grid-cols-2 gap-2">
+        <p class="justify-self-center">${trackNo++}</p>
+        <section class="grid grid-cols-[auto_1fr] place-items-center gap-2">
             <img class="h-8 w-8" src="${image.url}" alt="${name}" />
-            <article class="flex flex-col gap-1">
-                <h2 class="text-primary text-xl ">${name}</h2>
-                <p class="text-sm">${Array.from(artists, artist=> artist.name).join(", ")}</p>
+            <article class="flex flex-col">
+                <h2 class="text-primary text-lg line-clamp-1">${name}</h2>
+                <p class="text-sm line-clamp-1">${Array.from(artists, artist=> artist.name).join(", ")}</p>
             </article>
         </section>
         <p>${album.name}</p>
-        <p>${duration_ms}</p>
+        <p>${duration}</p>
         </section>
         `;
     }
@@ -86,11 +93,11 @@ const loadPlaylistTracks = ({tracks}) => {
 
 const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
-    console.log(playlist);
     const playlistItem = document.querySelector("#page-content");
-    playlistItem.innerHTML = `<header class="px-8">
+    playlistItem.innerHTML = `
+    <header id="playlist-header" class="px-8">
     <nav>
-        <ul class="grid grid-cols-[50px_2fr_1fr_50px] gap-4 text-secondary ">
+        <ul class="grid grid-cols-[50px_2fr_1fr_50px] gap-4 text-secondary p-1">
             <li class="justify-self-center">#</li>
             <li>Title</li>
             <li>Album</li>
@@ -98,18 +105,15 @@ const fillContentForPlaylist = async (playlistId) => {
         </ul>
     </nav>
 </header>
-<section id="tracks" class="px-8">
+<section id="tracks" class="px-8 text-secondary">
 </section>`
 
     loadPlaylistTracks(playlist)
-    console.log(playlist);
 }
 
 
 const onPlaylistClicked = (event,id) => {
-    console.log(event.target);
     const section = {type: SECTIONTYPE.PLAYLIST, playlist: id}
-    console.log(section);
     history.pushState(section, "",`playlist/${id}`);
     loadSection(section);
 }
@@ -120,7 +124,6 @@ const loadSection = (section) => {
         loadPlaylists();
     }
     else if(section.type === SECTIONTYPE.PLAYLIST){
-        console.log(section.playlist);
         fillContentForPlaylist(section.playlist)
     }
 }
@@ -128,13 +131,11 @@ const loadSection = (section) => {
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
     const section = {type: SECTIONTYPE.DASHBOARD};
-    console.log(section);
     history.pushState(section, "","");
     loadSection(section);
     document.addEventListener("click" , () => {
         const profileMenu = document.querySelector("#profile-menu");
         if(!profileMenu.classList.contains("hidden")){
-            console.log("on document click");
             profileMenu.classList.add("hidden");
         }
     })
@@ -142,13 +143,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".content").addEventListener("scroll",(event) => {
         const{scrollTop} = event.target;
         const header = document.querySelector(".header");
-        if(scrollTop >= header.offsetTop + header.offsetHeight){
+        if(scrollTop >= header.offsetHeight){
             header.classList.add("bg-black-secondary");
             header.classList.remove("bg-transparent");
         }
         else {
             header.classList.add("bg-transparent");
             header.classList.remove("bg-black-secondary");
+        }
+
+        if(history.state.type === SECTIONTYPE.PLAYLIST){
+            const playlistHeader = document.querySelector("#playlist-header");
+            if(scrollTop >= playlistHeader.offsetHeight){
+                playlistHeader.classList.add("sticky", "bg-light-black" , `top-[${header.offsetHeight}px]`) 
+            }
         }
     });
 
