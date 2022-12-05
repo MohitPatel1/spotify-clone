@@ -26,3 +26,7 @@ Spotify Clone
   # Tailwind
   - h-full	=> height: 100%; 100% of the container height
     h-screen	=> height: 100vh; full screen reagardless of container size
+
+# Learnings
+- When element is generated using loop and if it gets too big, avoid using `innerHTML += element` , to flood the area
+  - instead create a new element and append it in every itteration

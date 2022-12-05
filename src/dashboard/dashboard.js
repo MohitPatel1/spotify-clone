@@ -69,25 +69,34 @@ const formatTime = (duration_ms) => {
 }
 
 const loadPlaylistTracks = ({tracks}) => {
-    let trackSection = document.querySelector("#tracks");
+    let trackSections = document.querySelector("#tracks");
     let trackNo = 1 ;
     for(let trackItem of tracks.items){
         let {id , artists , name , album, duration_ms} = trackItem.track;
+        let track = document.createElement("section");
+        track.id = id;
+        track.className = "track p-1 grid grid-cols-[50px_1fr_1fr_50px] items-center justify-items-start gap-4 text-secondary rounded-md hover:bg-light-black";
         let image = album.images.find(img => img.height === 64);
         let duration = formatTime(duration_ms)
-        trackSection.innerHTML += `<section class="track p-1 grid grid-cols-[50px_2fr_1fr_50px] items-center justify-items-start gap-4 text-secondary rounded-md hover:bg-light-black">
-        <p class="justify-self-center">${trackNo++}</p>
-        <section class="grid grid-cols-[auto_1fr] place-items-center gap-2">
-            <img class="h-8 w-8" src="${image.url}" alt="${name}" />
-            <article class="flex flex-col">
+        track.innerHTML = `
+        <p class="relative w-full flex items-center justify-center justify-self-center"><span class="track-no">${trackNo++}</span></p>
+        <section class="grid grid-cols-[50px_1fr] place-items-center gap-2">
+            <img class="h-10 w-10" src="${image.url}" alt="${name}" />
+            <article class="flex flex-col gap-1 justify-center">
                 <h2 class="text-primary text-lg line-clamp-1">${name}</h2>
-                <p class="text-sm line-clamp-1">${Array.from(artists, artist=> artist.name).join(", ")}</p>
+                <p class="text-xs line-clamp-1">${Array.from(artists, artist=> artist.name).join(", ")}</p>
             </article>
         </section>
-        <p>${album.name}</p>
-        <p>${duration}</p>
+        <p class="line-clamp-1 text-sm">${album.name}</p>
+        <p class="text-sm">${duration}</p>
         </section>
         `;
+        const playButton = document.createElement("button");
+        playButton.id = `play-track${id}`;
+        playButton.className = `play w-full absolute left-0 text-lg invisible`
+        playButton.textContent = "▶";
+        track.querySelector("p").appendChild(playButton);
+        trackSections.appendChild(track);
     }
 }
 
@@ -95,17 +104,17 @@ const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
     const playlistItem = document.querySelector("#page-content");
     playlistItem.innerHTML = `
-    <header id="playlist-header" class="px-8">
-    <nav>
-        <ul class="grid grid-cols-[50px_2fr_1fr_50px] gap-4 text-secondary p-1">
+    <header id="playlist-header" class="mx-8 border-secondary border-b-[0.5px]">
+    <nav class="py-2">
+        <ul class="grid grid-cols-[50px_1fr_1fr_50px] gap-4 text-secondary p-1">
             <li class="justify-self-center">#</li>
-            <li>Title</li>
-            <li>Album</li>
+            <li>TITLE</li>
+            <li>ALBUM</li>
             <li>⏱</li>
         </ul>
     </nav>
 </header>
-<section id="tracks" class="px-8 text-secondary">
+<section id="tracks" class="px-8 text-secondary mt-4">
 </section>`
 
     loadPlaylistTracks(playlist)
@@ -130,9 +139,12 @@ const loadSection = (section) => {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
-    const section = {type: SECTIONTYPE.DASHBOARD};
-    history.pushState(section, "","");
-    loadSection(section);
+    // const section = {type: SECTIONTYPE.DASHBOARD};
+    const section = {type: SECTIONTYPE.PLAYLIST , playlist:"37i9dQZF1DX2LmjTY2eac5"}
+    // history.pushState(section, "","");
+    history.pushState(section, "",`dashboard/playlist/${section.playlist}`);
+    // loadSection(section);
+    fillContentForPlaylist(section.playlist)
     document.addEventListener("click" , () => {
         const profileMenu = document.querySelector("#profile-menu");
         if(!profileMenu.classList.contains("hidden")){
@@ -143,21 +155,30 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".content").addEventListener("scroll",(event) => {
         const{scrollTop} = event.target;
         const header = document.querySelector(".header");
+
         if(scrollTop >= header.offsetHeight){
-            header.classList.add("bg-black-secondary");
+            header.classList.add("bg-black");
             header.classList.remove("bg-transparent");
         }
         else {
             header.classList.add("bg-transparent");
-            header.classList.remove("bg-black-secondary");
+            header.classList.remove("bg-black");
         }
-
-        if(history.state.type === SECTIONTYPE.PLAYLIST){
-            const playlistHeader = document.querySelector("#playlist-header");
-            if(scrollTop >= playlistHeader.offsetHeight){
-                playlistHeader.classList.add("sticky", "bg-light-black" , `top-[${header.offsetHeight}px]`) 
-            }
-        }
+        
+        // if(history.state.type === SECTIONTYPE.PLAYLIST){
+        //     const coverElement = document.querySelector("#cover-content");
+        //     const playlistHeader = document.querySelector("#playlist-header");
+        //     if(scrollTop >= (coverElement.offsetHeight - header.offsetHeight)){
+        //         playlistHeader.classList.add("sticky", "bg-black-secondary" , "px-8") 
+        //         playlistHeader.classList.remove("mx-8");
+        //         playlistHeader.style.top = `${header.offsetHeight}px`;
+        //     }
+        //     else{
+        //         playlistHeader.classList.remove("sticky", "bg-black-secondary" , "px-8") 
+        //         playlistHeader.classList.add("mx-8");
+        //         playlistHeader.style.top = `revert`;
+        //     }
+        // }
     });
 
     window.addEventListener("popstate", (event) => {
