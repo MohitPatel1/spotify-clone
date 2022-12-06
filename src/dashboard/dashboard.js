@@ -68,6 +68,16 @@ const formatTime = (duration_ms) => {
     return duration
 }
 
+const onTrackSelection = (id, event) => {
+    document.querySelectorAll("#tracks .track").forEach(trackItem => {
+        if(trackItem.id === id){
+            trackItem.classList.add("bg-gray" , "selected");
+        }else{
+            trackItem.classList.remove("bg-gray" , "selected");
+        }
+    })
+}
+
 const loadPlaylistTracks = ({tracks}) => {
     let trackSections = document.querySelector("#tracks");
     let trackNo = 1 ;
@@ -91,6 +101,8 @@ const loadPlaylistTracks = ({tracks}) => {
         <p class="text-sm">${duration}</p>
         </section>
         `;
+        track.addEventListener("click" , (event) => onTrackSelection(id , event)) ;
+
         const playButton = document.createElement("button");
         playButton.id = `play-track${id}`;
         playButton.className = `play w-full absolute left-0 text-lg invisible`
