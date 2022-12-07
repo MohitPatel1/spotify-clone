@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
     <title>Dashboard</title>
 </head>
 <body class="h-screen w-screen bg-black text-primary">
@@ -47,8 +48,25 @@
                 // playlistItem in main.js
             </section>
         </article>
-        <footer class="now-playing">
-            <p>Now playing</p>
+        <footer class="now-playing border-t border-t-light-black bg-black-secondary px-4 text-secondary">
+        <section class="grid grid-cols-[1fr_2fr_1fr] gap-4">
+            <section class="grid grid-cols-[auto_1fr]"> <!-- 50px -->
+                <img src="" alt="title" class="h-12 w-12">
+                <section class="flex flex-col justify-center">
+                    <h2 id="now-playing-song" class="text-sm font-semibold text-primary">song title</h2>
+                    <p id="now-playing-artists" class="text-xs">song artists</p>
+                </section>
+            </section>
+            <section id="audio-control">
+                <section class="flex items-center justify-center hover:text-primary">
+                    <button id="previous"><span class="material-symbols-outlined">skip_previous</span></button>
+                    <button id="play"> <span class="material-symbols-outlined">play_circle</span> </button>
+                    <button id="next"><span class="material-symbols-outlined">skip_next</span></button>
+                </section>
+               
+            </section>
+            <section>volume</section>
+        </section>
         </footer>
     </main>
     <script type="module" src="dashboard.js"></script>

@@ -78,23 +78,28 @@ const onTrackSelection = (id, event) => {
     })
 }
 
+const onPlayTrack = (event , {image,artistNames,name,previewUrl , duration, id}) => {
+    console.log(image,artistNames,name,previewUrl , duration, id);
+}
+
 const loadPlaylistTracks = ({tracks}) => {
     let trackSections = document.querySelector("#tracks");
     let trackNo = 1 ;
     for(let trackItem of tracks.items){
-        let {id , artists , name , album, duration_ms} = trackItem.track;
+        let {id , artists , name , album, duration_ms, preview_url : previewUrl} = trackItem.track;
         let track = document.createElement("section");
         track.id = id;
         track.className = "track p-1 grid grid-cols-[50px_1fr_1fr_50px] items-center justify-items-start gap-4 text-secondary rounded-md hover:bg-light-black";
         let image = album.images.find(img => img.height === 64);
         let duration = formatTime(duration_ms)
+        let artistNames = `${Array.from(artists, artist=> artist.name).join(", ")}`
         track.innerHTML = `
         <p class="relative w-full flex items-center justify-center justify-self-center"><span class="track-no">${trackNo++}</span></p>
         <section class="grid grid-cols-[50px_1fr] place-items-center gap-2">
             <img class="h-10 w-10" src="${image.url}" alt="${name}" />
             <article class="flex flex-col gap-1 justify-center">
                 <h2 class="text-primary text-lg line-clamp-1">${name}</h2>
-                <p class="text-xs line-clamp-1">${Array.from(artists, artist=> artist.name).join(", ")}</p>
+                <p class="text-xs line-clamp-1">${artistNames}</p>
             </article>
         </section>
         <p class="line-clamp-1 text-sm">${album.name}</p>
@@ -107,6 +112,7 @@ const loadPlaylistTracks = ({tracks}) => {
         playButton.id = `play-track${id}`;
         playButton.className = `play w-full absolute left-0 text-lg invisible`
         playButton.textContent = "▶";
+        playButton.addEventListener("click" , (event) => onPlayTrack(event, {image,artistNames,name,previewUrl , duration, id}))
         track.querySelector("p").appendChild(playButton);
         trackSections.appendChild(track);
     }
