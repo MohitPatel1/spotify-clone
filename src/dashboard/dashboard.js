@@ -1,6 +1,13 @@
 import { fetchRequest } from "../api";
 import { ENDPOINT, logout, SECTIONTYPE } from "../common";
 
+const audio = new Audio();
+const volume  = document.querySelector("#volume");
+const playButton = document.querySelector("#play");
+const totalSongDuration = document.querySelector("#total-song-duration");
+const totalSongDurationCompleted = document.querySelector("#song-duration-completed");
+const songProgress = document.querySelector("#progress");
+
 const onProfileClick = (event) => {
     event.stopPropagation();
     const profileMenu = document.querySelector("#profile-menu");
@@ -78,8 +85,27 @@ const onTrackSelection = (id, event) => {
     })
 }
 
+// const timeLine = document.querySelector("")
+
 const onPlayTrack = (event , {image,artistNames,name,previewUrl , duration, id}) => {
     console.log(image,artistNames,name,previewUrl , duration, id);
+    // <section class="grid grid-cols-[auto_1fr]"> <!-- 50px -->
+    //             <img src="" alt="title" class="h-12 w-12">
+    //             <section class="flex flex-col justify-center">
+    //                 <h2 id="now-playing-song" class="text-sm font-semibold text-primary">song title</h2>
+    //                 <p id="now-playing-artists" class="text-xs">song artists</p>
+    //             </section>
+    //         </section>
+    const nowPlayingSongImage = document.querySelector("#now-playing-image")
+    nowPlayingSongImage.src = image.url;
+    const songTitle = document.querySelector("#now-playing-song")
+    songTitle.textContent = name;
+    const artists = document.querySelector("#now-playing-artists")
+    artists.textContent = artistNames;
+
+    audio.src = previewUrl;
+    audio.play();
+
 }
 
 const loadPlaylistTracks = ({tracks}) => {
@@ -122,7 +148,7 @@ const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
     const playlistItem = document.querySelector("#page-content");
     playlistItem.innerHTML = `
-    <header id="playlist-header" class="mx-8 border-secondary border-b-[0.5px]">
+    <header id="playlist-header" class="mx-8 border-secondary border-b-[0.5px] z-10">
     <nav class="py-2">
         <ul class="grid grid-cols-[50px_1fr_1fr_50px] gap-4 text-secondary p-1">
             <li class="justify-self-center">#</li>
@@ -183,20 +209,20 @@ document.addEventListener("DOMContentLoaded", () => {
             header.classList.remove("bg-black");
         }
         
-        // if(history.state.type === SECTIONTYPE.PLAYLIST){
-        //     const coverElement = document.querySelector("#cover-content");
-        //     const playlistHeader = document.querySelector("#playlist-header");
-        //     if(scrollTop >= (coverElement.offsetHeight - header.offsetHeight)){
-        //         playlistHeader.classList.add("sticky", "bg-black-secondary" , "px-8") 
-        //         playlistHeader.classList.remove("mx-8");
-        //         playlistHeader.style.top = `${header.offsetHeight}px`;
-        //     }
-        //     else{
-        //         playlistHeader.classList.remove("sticky", "bg-black-secondary" , "px-8") 
-        //         playlistHeader.classList.add("mx-8");
-        //         playlistHeader.style.top = `revert`;
-        //     }
-        // }
+        if(history.state.type === SECTIONTYPE.PLAYLIST){
+            const coverElement = document.querySelector("#cover-content");
+            const playlistHeader = document.querySelector("#playlist-header");
+            if(scrollTop >= (coverElement.offsetHeight - header.offsetHeight)){
+                playlistHeader.classList.add("sticky", "bg-black-secondary" , "px-8") 
+                playlistHeader.classList.remove("mx-8");
+                playlistHeader.style.top = `${header.offsetHeight}px`;
+            }
+            else{
+                playlistHeader.classList.remove("sticky", "bg-black-secondary" , "px-8") 
+                playlistHeader.classList.add("mx-8");
+                playlistHeader.style.top = `revert`;
+            }
+        }
     });
 
     window.addEventListener("popstate", (event) => {
