@@ -7,6 +7,8 @@ const playButton = document.querySelector("#play");
 const totalSongDuration = document.querySelector("#total-song-duration");
 const totalSongDurationCompleted = document.querySelector("#song-duration-completed");
 const songProgress = document.querySelector("#progress");
+const timeline = document.querySelector("#timeline")
+let progressInterval ;
 
 const onProfileClick = (event) => {
     event.stopPropagation();
@@ -71,7 +73,7 @@ const formatTime = (duration_ms) => {
     let duration_sec = duration_ms/1000 ;
     let min = Math.floor(duration_sec / 60);
     let sec = Math.round(duration_sec % 60);
-    let duration = ((min < 10 ? "0":"" ) + min + ":" + sec + (sec < 10 ? "0":""));
+    let duration = ((min < 10 ? "0":"" ) + min + ":" + (sec < 10 ? "0":"") + sec);
     return duration
 }
 
@@ -87,8 +89,14 @@ const onTrackSelection = (id, event) => {
 
 // const timeLine = document.querySelector("")
 
+const onAudioMetadataLoaded = () => {
+    totalSongDuration.textContent = `0:${audio.duration.toFixed(0)}`;
+    playButton.querySelector("span").textContent = "pause_circle"
+}
+
+
+
 const onPlayTrack = (event , {image,artistNames,name,previewUrl , duration, id}) => {
-    console.log(image,artistNames,name,previewUrl , duration, id);
     // <section class="grid grid-cols-[auto_1fr]"> <!-- 50px -->
     //             <img src="" alt="title" class="h-12 w-12">
     //             <section class="flex flex-col justify-center">
@@ -105,6 +113,16 @@ const onPlayTrack = (event , {image,artistNames,name,previewUrl , duration, id})
 
     audio.src = previewUrl;
     audio.play();
+    clearInterval(progressInterval);
+    setInterval(() => {
+        if(audio.paused){
+            return
+        } 
+        totalSongDurationCompleted.textContent = formatTime(audio.currentTime * 1000);
+        songProgress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+    }, 100);
+    audio.removeEventListener("loadedmetadata", onAudioMetadataLoaded);
+    audio.addEventListener("loadedmetadata" , onAudioMetadataLoaded);
 
 }
 
