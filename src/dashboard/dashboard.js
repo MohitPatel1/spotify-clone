@@ -89,9 +89,11 @@ const onTrackSelection = (id, event) => {
 
 // const timeLine = document.querySelector("")
 
-const onAudioMetadataLoaded = () => {
+const onAudioMetadataLoaded = (id) => {
     totalSongDuration.textContent = `0:${audio.duration.toFixed(0)}`;
-    playButton.querySelector("span").textContent = "pause_circle"
+    playButton.querySelector("span").textContent = "pause_circle";
+    const playButtonFromTracks = document.querySelector(`#play-track${id}`);
+    playButtonFromTracks.innerHTML = `<button id="previous"><span style="font-size: 48px" class="material-symbols-outlined">pause_circle</span></button>`
 }
 
 
@@ -121,8 +123,8 @@ const onPlayTrack = (event , {image,artistNames,name,previewUrl , duration, id})
         totalSongDurationCompleted.textContent = formatTime(audio.currentTime * 1000);
         songProgress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
     }, 100);
-    audio.removeEventListener("loadedmetadata", onAudioMetadataLoaded);
-    audio.addEventListener("loadedmetadata" , onAudioMetadataLoaded);
+    audio.removeEventListener("loadedmetadata", () => onAudioMetadataLoaded(id));
+    audio.addEventListener("loadedmetadata" ,() => onAudioMetadataLoaded(id));
 
 }
 
@@ -201,12 +203,12 @@ const loadSection = (section) => {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
-    // const section = {type: SECTIONTYPE.DASHBOARD};
-    const section = {type: SECTIONTYPE.PLAYLIST , playlist:"37i9dQZF1DX2LmjTY2eac5"}
-    // history.pushState(section, "","");
-    history.pushState(section, "",`dashboard/playlist/${section.playlist}`);
-    // loadSection(section);
-    fillContentForPlaylist(section.playlist)
+    const section = {type: SECTIONTYPE.DASHBOARD};
+    history.pushState(section, "","");
+    loadSection(section);
+    // const section = {type: SECTIONTYPE.PLAYLIST , playlist:"37i9dQZF1DX2LmjTY2eac5"};
+    // history.pushState(section, "",`dashboard/playlist/${section.playlist}`);
+    // fillContentForPlaylist(section.playlist)
     document.addEventListener("click" , () => {
         const profileMenu = document.querySelector("#profile-menu");
         if(!profileMenu.classList.contains("hidden")){
