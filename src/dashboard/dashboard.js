@@ -89,44 +89,66 @@ const onTrackSelection = (id, event) => {
 
 // const timeLine = document.querySelector("")
 
-const onAudioMetadataLoaded = (id) => {
-    totalSongDuration.textContent = `0:${audio.duration.toFixed(0)}`;
+const updateIconsForPlayMode = (id) => {
     playButton.querySelector("span").textContent = "pause_circle";
     const playButtonFromTracks = document.querySelector(`#play-track${id}`);
-    playButtonFromTracks.innerHTML = `<button id="previous"><span style="font-size: 48px" class="material-symbols-outlined">pause_circle</span></button>`
+    playButtonFromTracks.textContent = "||";
+    playButtonFromTracks.setAttribute("data-play");
+}
+
+const updateIconsForPauseMode = (id) => {
+    playButton.querySelector("span").textContent = "play_circle";
+    const playButtonFromTracks = document.querySelector(`#play-track${id}`);
+    playButtonFromTracks.textContent = "▶";
+    playButtonFromTracks.removeAttribute("data-play");
+}
+
+const onAudioMetadataLoaded = (id) => {
+    totalSongDuration.textContent = `0:${audio.duration.toFixed(0)}`;
+    updateIconsForPlayMode(id);
+}
+
+const onNowPlayingPlayButtonClicked = (id) => {
+    if(audio.paused){
+        audio.play();
+        updateIconsForPlayMode(id);
+    }else if(audio.played){
+        audio.pause();
+        updateIconsForPauseMode(id);
+    }
 }
 
 
 
 const onPlayTrack = (event , {image,artistNames,name,previewUrl , duration, id}) => {
-    // <section class="grid grid-cols-[auto_1fr]"> <!-- 50px -->
-    //             <img src="" alt="title" class="h-12 w-12">
-    //             <section class="flex flex-col justify-center">
-    //                 <h2 id="now-playing-song" class="text-sm font-semibold text-primary">song title</h2>
-    //                 <p id="now-playing-artists" class="text-xs">song artists</p>
-    //             </section>
-    //         </section>
-    const nowPlayingSongImage = document.querySelector("#now-playing-image")
-    nowPlayingSongImage.src = image.url;
-    const songTitle = document.querySelector("#now-playing-song")
-    songTitle.textContent = name;
-    const artists = document.querySelector("#now-playing-artists")
-    artists.textContent = artistNames;
-
-    audio.src = previewUrl;
-    audio.play();
-    clearInterval(progressInterval);
-    setInterval(() => {
-        if(audio.paused){
-            return
-        } 
-        totalSongDurationCompleted.textContent = formatTime(audio.currentTime * 1000);
-        songProgress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-    }, 100);
-    audio.removeEventListener("loadedmetadata", () => onAudioMetadataLoaded(id));
-    audio.addEventListener("loadedmetadata" ,() => onAudioMetadataLoaded(id));
-
-}
+    const button = event.target;
+    if(button.getAttribute("data-play")){
+        audio.pause();
+        updateIconsForPauseMode(id);
+    }else{
+        const nowPlayingSongImage = document.querySelector("#now-playing-image")
+        nowPlayingSongImage.src = image.url;
+        const songTitle = document.querySelector("#now-playing-song")
+        songTitle.textContent = name;
+        const artists = document.querySelector("#now-playing-artists")
+        artists.textContent = artistNames;
+    
+        audio.src = previewUrl;
+        audio.play();
+        clearInterval(progressInterval);
+        setInterval(() => {
+            if(audio.paused){
+                return
+            } 
+            totalSongDurationCompleted.textContent = formatTime(audio.currentTime * 1000);
+            songProgress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+        }, 100);
+        audio.removeEventListener("loadedmetadata", () => onAudioMetadataLoaded(id));
+        audio.addEventListener("loadedmetadata" ,() => onAudioMetadataLoaded(id));
+        playButton.addEventListener("click",() => onNowPlayingPlayButtonClicked(id));
+    
+    }
+    }
 
 const loadPlaylistTracks = ({tracks}) => {
     let trackSections = document.querySelector("#tracks");
@@ -206,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = {type: SECTIONTYPE.DASHBOARD};
     history.pushState(section, "","");
     loadSection(section);
-    // const section = {type: SECTIONTYPE.PLAYLIST , playlist:"37i9dQZF1DX2LmjTY2eac5"};
+    // const section = {type: SECTIONTYPE.PLAYLIST , playlist:"37i9dQZF1DWY1kDGbdPb81"};
     // history.pushState(section, "",`dashboard/playlist/${section.playlist}`);
     // fillContentForPlaylist(section.playlist)
     document.addEventListener("click" , () => {
@@ -249,3 +271,4 @@ document.addEventListener("DOMContentLoaded", () => {
         loadSection(event.state)
     })
 })
+
