@@ -7,7 +7,8 @@ const playButton = document.querySelector("#play");
 const totalSongDuration = document.querySelector("#total-song-duration");
 const totalSongDurationCompleted = document.querySelector("#song-duration-completed");
 const songProgress = document.querySelector("#progress");
-const timeline = document.querySelector("#timeline")
+const timeline = document.querySelector("#timeline");
+let prevSong = "";
 let progressInterval ;
 
 const onProfileClick = (event) => {
@@ -90,17 +91,22 @@ const onTrackSelection = (id, event) => {
 // const timeLine = document.querySelector("")
 
 const updateIconsForPlayMode = (id) => {
+    if(prevSong){
+        const playButtonFromTracks = document.querySelector(`#play-track${prevSong}`);
+        playButtonFromTracks.textContent = "▶";
+    }
+    prevSong = id;
     playButton.querySelector("span").textContent = "pause_circle";
     const playButtonFromTracks = document.querySelector(`#play-track${id}`);
     playButtonFromTracks.textContent = "||";
-    playButtonFromTracks.setAttribute("data-play");
+    playButtonFromTracks.setAttribute("data-play", "true");
 }
 
 const updateIconsForPauseMode = (id) => {
     playButton.querySelector("span").textContent = "play_circle";
     const playButtonFromTracks = document.querySelector(`#play-track${id}`);
     playButtonFromTracks.textContent = "▶";
-    playButtonFromTracks.removeAttribute("data-play");
+    playButtonFromTracks.removeAttribute("data-play", "true");
 }
 
 const onAudioMetadataLoaded = (id) => {
