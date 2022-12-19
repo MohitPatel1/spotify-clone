@@ -15,6 +15,7 @@ Spotify Clone
 - popstate event
 - state
 - serializable object
+- Material-symbol-outlined class in tw
 
 # To do
 - profile picture -> done
