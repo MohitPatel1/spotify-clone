@@ -31,3 +31,5 @@ Spotify Clone
 # Learnings
 - When element is generated using loop and if it gets too big, avoid using `innerHTML += element` , to flood the area
   - instead create a new element and append it in every itteration
+- setInterval :- invokes the function continuously after the delay time
+- setTimeout :- invokes function only once after the delay time 
