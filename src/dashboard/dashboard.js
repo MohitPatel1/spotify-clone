@@ -50,6 +50,12 @@ const loadPlaylists = () => {
 }
 
 const fillContentForDashboard = () => {
+	const coverContent = document.querySelector("#cover-content");
+	const date = new Date();
+	const hours = date.getHours();
+	const timePeriod = (hours > 5 && hours <= 11) ? "Morning" : (hours > 11 && hours <= 17) ? "After Noon" : (hours > 17 && hours <= 22) ? "Evening" : (hours > 22 && hours <= 24 || hours >= 0 && hours < 5) ? "Night" : "Day" ;
+	coverContent.innerHTML = `<h1 class="text-6xl">Good ${timePeriod}</h1>`
+	coverContent
 	const pageContent = document.querySelector("#page-content");
 	const playlistMap = new Map([["featured", "featured-playlist-items"], ["top playlists", "top-playlist-items"]])
 	let innerHTML = "";
@@ -247,6 +253,11 @@ const loadSection = (section) => {
 	}
 }
 
+const loadUserPlaylists = async () => {
+	const playlists = await fetchRequest(ENDPOINT.userPlaylist);
+	console.log(playlists)
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	const volume = document.querySelector("#volume");
 	const playButton = document.querySelector("#play");
@@ -258,12 +269,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	const prev = document.querySelector("#previous");
 	let progressInterval;
 	loadUserProfile();
-	// const section = { type: SECTIONTYPE.DASHBOARD };
-	// history.pushState(section, "", "");
-	// loadSection(section);
-	const section = { type: SECTIONTYPE.PLAYLIST, playlist: "37i9dQZF1DWY1kDGbdPb81" };
-	history.pushState(section, "", `dashboard/playlist/${section.playlist}`);
-	fillContentForPlaylist(section.playlist)
+	loadUserPlaylists();
+	const section = { type: SECTIONTYPE.DASHBOARD };
+	history.pushState(section, "", "");
+	loadSection(section);
+	// const section = { type: SECTIONTYPE.PLAYLIST, playlist: "37i9dQZF1DWY1kDGbdPb81" };
+	// history.pushState(section, "", `dashboard/playlist/${section.playlist}`);
+	// fillContentForPlaylist(section.playlist)
 	document.addEventListener("click", () => {
 		const profileMenu = document.querySelector("#profile-menu");
 		if (!profileMenu.classList.contains("hidden")) {
@@ -279,7 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		const coverOpacity = 100 - (scrollTop >= coverHeight ? 100 : ((scrollTop/coverHeight)*100));
 		const headerOpacity = scrollTop >= header.offsetHeight ? 100 : ((scrollTop / header.offsetHeight)*100);
 		coverElement.style.opacity = `${coverOpacity}%`
-		console.log(headerOpacity)
 		header.style.background = `rgba(0 0 0 / ${headerOpacity}%)`;
 		
 		if (history.state.type === SECTIONTYPE.PLAYLIST) {
