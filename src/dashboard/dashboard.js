@@ -35,7 +35,7 @@ const loadPlaylist = async (endpoint, elementId) => {
 		playlistItem.id = id;
 		playlistItem.className = "rounded p-4 hover:cursor-pointer bg-black-secondary hover:bg-light-black";
 		playlistItem.setAttribute("data-type", "playlist")
-		playlistItem.addEventListener("click", (event) => onPlaylistClicked(event, id));
+		playlistItem.addEventListener("click", () => onPlaylistClicked(id));
 		playlistItem.innerHTML = `<img src="${url}" alt="${name}" class="rounded mb-2 object-contain shadow">
         <h2 class="text-base mb-4 truncate">${name}</h2>
         <h3 class="text-sm text-secondary line-clamp-2">${description}</h3>`;
@@ -213,9 +213,10 @@ const fillContentForPlaylist = async (playlistId) => {
 	const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
 	const playlistItem = document.querySelector("#page-content");
 	const coverElement = document.querySelector("#cover-content");
-	const { name, images, artist, description } = playlist;
+	console.log(coverElement)
+	const { name, images, description } = playlist;
 	coverElement.innerHTML = `
-	<img class="object-contain h-36 w-36" src="${images[0].url}" alt="" />
+	<img class="object-contain h-36 w-36" src="${images[0].url}" alt="cover image" />
 			<section>
 				<h2 id="playlist-name" class="text-4xl">${name}</h2>
 				<p id="playlist-details">${description}</p>
@@ -233,11 +234,10 @@ const fillContentForPlaylist = async (playlistId) => {
 </header>
 <section id="tracks" class="px-8 text-secondary mt-4">
 </section>`
-	console.log(playlist)
 	loadPlaylistTracks(playlist)
 }
 
-const onPlaylistClicked = (event, id) => {
+const onPlaylistClicked = (id) => {
 	const section = { type: SECTIONTYPE.PLAYLIST, playlist: id }
 	history.pushState(section, "", `playlist/${id}`);
 	loadSection(section);
@@ -256,6 +256,15 @@ const loadSection = (section) => {
 const loadUserPlaylists = async () => {
 	const playlists = await fetchRequest(ENDPOINT.userPlaylist);
 	console.log(playlists)
+	const userPlaylistSection = document.querySelector("#user-playlists > ul");
+	userPlaylistSection.innerHTML = "";
+	for(let {name , id} of playlists.items){
+		const li = document.createElement("li");
+		li.textContent = name;
+		li.classList = "cursor-pointer hover:text-primary";
+		li.addEventListener("click" , () => onPlaylistClicked(id));
+		userPlaylistSection.append(li);
+	}
 }
 
 document.addEventListener("DOMContentLoaded", () => {

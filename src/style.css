@@ -36,3 +36,11 @@ body{
 .track.playing .track-no, .track.playing .song-title {
     color: theme("colors.green");
 }
+
+.sidenav {
+    overflow-y: scroll;
+}
+
+.sidenav::-webkit-scrollbar{
+    display: none;
+}

@@ -14,7 +14,7 @@
 <body class="h-screen w-screen bg-black text-primary">
 	<main class="grid-template-areas grid-template grid grid-cols-[250px_1fr] grid-rows-[1fr_auto] h-full">
 		<aside class="sidenav">
-			<nav class="flex flex-col items-start gap-8 p-8 ">
+			<nav class="flex flex-col items-start gap-8 p-8">
 				<section>
 					<img src="../images/spotify-icons-logos/logos/01_RGB/02_PNG/Spotify_Logo_RGB_White.png " alt="spotify logo">
 				</section>
@@ -30,7 +30,6 @@
 					<ul class="flex flex-col gap-4 text-sm">
 						<li>Playlist 1</li>
 					</ul>
-					
 				</section>
 			</nav>
 		</aside>
@@ -40,7 +39,7 @@
 					<button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 bg-black hover:bg-light-black">
 						<section id="default-image">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-								stroke="currentColor" class="w-6 h-6 rounded-full bg-gray">
+								stroke="currentColor" class="w-10 h-10 rounded-full bg-gray">
 								<path stroke-linecap="round" stroke-linejoin="round"
 									d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
 							</svg>
@@ -68,7 +67,7 @@
 				// playlistItem in main.js
 			</section>
 		</article>
-		<footer class="now-playing border-t border-t-light-black bg-black-secondary text-secondary p-4">
+		<footer class="now-playing border-t border-t-light-black bg-black-secondary text-secondary p-4 sticky bottom-0">
 			<section class="grid grid-cols-[1fr_2fr_1fr] gap-4">
 				<section id="song-info" class="grid grid-cols-[auto_1fr] gap-4 place-content-center invisible"> <!-- invisible -->
 					<!-- 50px -->
@@ -100,7 +99,7 @@
 						<span id="total-song-duration" class="text-sm">05:00</span>
 					</section>
 				</section>
-				<section id="volume-control" class="flex items-cente justify-center">
+				<section id="volume-control" class="flex items-center justify-center">
 					<span>
 						<span class="material-symbols-outlined">volume_up</span>
 						<input id="volume" type="range" name="volume" value="100" min="0" max="100" />

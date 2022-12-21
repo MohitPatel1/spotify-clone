@@ -20,8 +20,8 @@ Spotify Clone
 # To do
 - profile picture -> done
 - Circular,Helvetica,Arial,sans-serif have this fonts -> done
-- add scrollbar and its color to playlists
-- modify scroll function for title
+- modify scroll function for title -> done
+- scroll only user playlists not spotify logo in aside tag
 
 # Notes
   # Tailwind
