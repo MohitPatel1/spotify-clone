@@ -148,16 +148,18 @@ const playTrack = (event, { image, artistNames, name, previewUrl, duration, id }
 		togglePlay();
 	} else {
 		const nowPlayingSongImage = document.querySelector("#now-playing-image");
-		nowPlayingSongImage.src = image.url;
 		const songTitle = document.querySelector("#now-playing-song");
-		songTitle.textContent = name;
 		const artists = document.querySelector("#now-playing-artists");
-		artists.textContent = artistNames;
 		const audioControl = document.querySelector("#audio-control");
-		audioControl.setAttribute("data-track-id", id);
+		const songInfo = document.querySelector("#song-info");
 
+		nowPlayingSongImage.src = image.url;
+		songTitle.textContent = name;
+		artists.textContent = artistNames;
+		audioControl.setAttribute("data-track-id", id);
 		audio.src = previewUrl;
 		audio.play();
+		songInfo.classList.remove("invisible");
 	}
 }
 
@@ -195,6 +197,7 @@ const loadPlaylistTracks = ({ tracks }) => {
 		playButton.addEventListener("click", (event) => playTrack(event, { image, artistNames, name, previewUrl, duration, id }))
 		track.querySelector("p").appendChild(playButton);
 		trackSections.appendChild(track);
+
 		loadedTracks.push({ id, artistNames, name, album, duration, previewUrl, image });
 	}
 	setItemInLocalStorage(LOADED_TRACKS, loadedTracks);
@@ -208,7 +211,7 @@ const fillContentForPlaylist = async (playlistId) => {
 	coverElement.innerHTML = `
 	<img class="object-contain h-36 w-36" src="${images[0].url}" alt="" />
 			<section>
-				<h2 id="playlist-name" class="text-4xl">${name}</h2>f
+				<h2 id="playlist-name" class="text-4xl">${name}</h2>
 				<p id="playlist-details">${description}</p>
 			</section>`
 	playlistItem.innerHTML = `
@@ -267,24 +270,21 @@ document.addEventListener("DOMContentLoaded", () => {
 			profileMenu.classList.add("hidden");
 		}
 	})
-
+	
 	document.querySelector(".content").addEventListener("scroll", (event) => {
 		const { scrollTop } = event.target;
 		const header = document.querySelector(".header");
-
-		if (scrollTop >= header.offsetHeight) {
-			header.classList.add("bg-black");
-			header.classList.remove("bg-transparent");
-		}
-		else {
-			header.classList.add("bg-transparent");
-			header.classList.remove("bg-black");
-		}
-
+		const coverElement = document.querySelector("#cover-content");
+		const coverHeight = coverElement.offsetHeight;
+		const coverOpacity = 100 - (scrollTop >= coverHeight ? 100 : ((scrollTop/coverHeight)*100));
+		const headerOpacity = scrollTop >= header.offsetHeight ? 100 : ((scrollTop / header.offsetHeight)*100);
+		coverElement.style.opacity = `${coverOpacity}%`
+		console.log(headerOpacity)
+		header.style.background = `rgba(0 0 0 / ${headerOpacity}%)`;
+		
 		if (history.state.type === SECTIONTYPE.PLAYLIST) {
-			const coverElement = document.querySelector("#cover-content");
 			const playlistHeader = document.querySelector("#playlist-header");
-			if (scrollTop >= (coverElement.offsetHeight - header.offsetHeight)) {
+			if (coverOpacity <= 35) {
 				playlistHeader.classList.add("sticky", "bg-black-secondary", "px-8")
 				playlistHeader.classList.remove("mx-8");
 				playlistHeader.style.top = `${header.offsetHeight}px`;
