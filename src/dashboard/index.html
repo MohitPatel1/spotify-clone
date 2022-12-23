@@ -1,56 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <title>Dashboard</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="../style.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+	<link rel="shortcut icon" href="../images/spotify-icons-logos/icons/01_RGB/02_PNG/Spotify_Icon_RGB_Green.png" type="image/x-icon" />
+	<title>Dashboard</title>
 </head>
+
 <body class="h-screen w-screen bg-black text-primary">
-    <main class="grid-template-areas grid-template grid grid-cols-[250px_1fr] grid-rows-[1fr_auto] h-full">
-        <aside class="sidenav">
-            <h1>sidenav</h1>
-            <img src="../images/rickAndMorty.jpg" alt="">
-            <span class="shadow shadow-green">Look Morty Mohit is making a side nav</span>
-            <h1>aghh how dumb!</h1>
-        </aside>
-        <article class="relative content overflow-auto bg-transparent">
-            <header class="border-solid border-2 px-8 py-4 bg-transparent">
-                <nav class="flex justify-end relative">
-                    <button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 hover:bg-light-black">
-                        <section id="default-image">
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                fill="none" 
-                                viewBox="0 0 24 24" 
-                                stroke-width="1.5" 
-                                stroke="currentColor" 
-                                class="w-8 h-8 rounded-full bg-gray">
-                                <path 
-                                stroke-linecap="round" 
-                                stroke-linejoin="round" 
-                                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg> 
-                        </section>
-                        <section class="flex gap-x-1 justify-center">
-                            <h3 id="display-name">Mohit Patel</h3>
-                            <i>▼</i>
-                        </section>
-                    </button>
-                    <ul id="profile-menu" class="hidden absolute top-12 right-0 w-[200px] rounded-md bg-light-black p-1"> <!-- hidden -->
-                        <li id="logout" class=" cursor-pointer rounded-md p-1 hover:bg-gray">Logout</li> <!-- w-full -->
-                    </ul>
-                </nav>
-            </header>
-            <article id="cover-content" class="absolute w-full h-72 -z-[1] top-0 px-8 py-4 bg-gradient-to-b from-light-black to-black-base">
-            
-            </article>
-            <section id="page-content" class=" bg-black-base mt-48"></section>
-        <footer class="now-playing">
-            <p>Now playing</p>
-        </footer>
-    </main>
-    <script type="module" src="dashboard.js"></script>
+	<main class="grid-template-areas grid-template grid grid-cols-[250px_1fr] grid-rows-[1fr_auto] h-full">
+		<aside class="sidenav">
+			<nav class="flex flex-col items-start gap-8 p-8">
+				<section>
+					<img src="../images/spotify-icons-logos/logos/01_RGB/02_PNG/Spotify_Logo_RGB_White.png " alt="spotify logo">
+				</section>
+				<section>
+					<ul class="flex flex-col gap-4 text-sm text-secondary">
+						<a href="/dashboard/dashboard.html">
+							<li class="flex items-center gap-2 hover:text-primary cursor-pointer"><span class="material-symbols-outlined">home</span><span>Home</span></li>
+						</a>
+						<li class="flex items-center gap-2 hover:text-primary cursor-pointer"><span class="material-symbols-outlined">search</span><span>Search</span></li>
+					</ul>
+				</section>
+				<section id="user-playlists" class="w-full border-t border-light-black pt-4"> 
+					<ul class="flex flex-col gap-4 text-sm">
+						<li>Playlist 1</li>
+					</ul>
+				</section>
+			</nav>
+		</aside>
+		<article class="relative content overflow-auto">
+			<header class="header bg-black/[0] px-8 py-4 top-0 sticky z-10">
+				<nav class="flex justify-end relative">
+					<button id="user-profile-btn" class="flex items-center rounded-2xl gap-x-2 py-1 px-2 bg-black hover:bg-light-black">
+						<section id="default-image">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+								stroke="currentColor" class="w-10 h-10 rounded-full bg-gray">
+								<path stroke-linecap="round" stroke-linejoin="round"
+									d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+							</svg>
+						</section>
+						<section class="flex gap-x-1 justify-center">
+							<h3 id="display-name">Your Name</h3>
+							<i>▼</i>
+						</section>
+					</button>
+					<ul id="profile-menu"
+						class="hidden absolute top-12 right-0 w-[200px] rounded-md bg-light-black p-1">
+						<!-- hidden -->
+						<li id="logout" class="cursor-pointer rounded-md p-1 hover:bg-gray">
+							Logout
+						</li>
+						<!-- w-full -->
+					</ul>
+				</nav>
+			</header>
+			<article id="cover-content"
+				class="absolute grid grid-cols-[250px_1fr] auto-rows-[250px] pt-16 gap-4 w-full h-96 -z-[1] top-0 px-4 bg-gradient-to-b from-light-black to-black-base">
+				<h1>Good Afternoon</h1>
+			</article>
+			<section id="page-content" class="mt-64 bg-black-base">
+				// playlistItem in main.js
+			</section>
+		</article>
+		<footer class="now-playing border-t border-t-light-black bg-black-secondary text-secondary p-4 sticky bottom-0">
+			<section class="grid grid-cols-[1fr_2fr_1fr] gap-4">
+				<section id="song-info" class="grid grid-cols-[auto_1fr] gap-4 place-content-center invisible"> <!-- invisible -->
+					<!-- 50px -->
+					<img id="now-playing-image" src="" alt="title" class="h-12 w-12" />
+					<section class="flex flex-col justify-center">
+						<h2 id="now-playing-song" class="text-sm font-semibold text-primary">
+							song title
+						</h2>
+						<p id="now-playing-artists" class="text-xs">song artists</p>
+					</section>
+				</section>
+				<section id="audio-control" class="flex flex-col items-center justify-center ">
+					<section class="flex items-center justify-center">
+						<button id="previous" class="hover:text-primary">
+							<span style="font-size: 36px" class="material-symbols-outlined">skip_previous</span>
+						</button>
+						<button id="play" class="hover:text-primary">
+							<span style="font-size: 40px" class="material-symbols-outlined">play_circle</span>
+						</button>
+						<button id="next" class="hover:text-primary">
+							<span style="font-size: 36px" class="material-symbols-outlined">skip_next</span>
+						</button>
+					</section>
+					<section class="flex w-full items-center justify-center p-1 gap-4">
+						<span id="song-duration-completed" class="text-sm">0:00</span>
+						<section id="timeline" class="bg-white w-full h-2 cursor-pointer rounded-3xl">
+							<section id="progress" class="rounded-3xl w-0 h-2 bg-green"></section>
+						</section>
+						<span id="total-song-duration" class="text-sm">05:00</span>
+					</section>
+				</section>
+				<section id="volume-control" class="flex items-center justify-center">
+					<span>
+						<span class="material-symbols-outlined">volume_up</span>
+						<input id="volume" type="range" name="volume" value="100" min="0" max="100" />
+					</span>
+				</section>
+			</section>
+		</footer>
+	</main>
+	<script type="module" src="dashboard.js"></script>
 </body>
+
 </html>

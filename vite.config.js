@@ -13,18 +13,6 @@ export default defineConfig(({ command, mode }) => {
     define: {
       __APP_ENV__: env.APP_ENV
     },
-    root,
-    build:{
-      outDir,
-      emptyOutDir: true,
-      rollupOptions:{
-        input:{
-          main: resolve(root, 'index.html'),
-          dashboard: resolve(root, 'dashboard', 'index.html'),
-          login: resolve(root, 'login', 'index.html'),
-
-        }
-      }
-    }
+    root: "src",
   }
 })
